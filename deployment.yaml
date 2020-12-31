@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginxhello
+  name: nginxhello
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: nginxhello
+  template:
+    metadata:
+      labels:
+        app: nginxhello
+    spec:
+      containers:
+        - image: ironhive/nginxhello:ad673ad3b1e05a21411529aced313613d861136a
+          name: nginxhello
+          ports:
+            - containerPort: 80
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          livenessProbe:
+            initialDelaySeconds: 2
+            periodSeconds: 2
+            httpGet:
+              port: 80
+              path: /healthz/live
+          readinessProbe:
+            initialDelaySeconds: 2
+            periodSeconds: 2
+            httpGet:
+              port: 80
+              path: /healthz/ready
