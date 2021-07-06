@@ -16,7 +16,7 @@ spec:
         app: nginxhello
     spec:
       containers:
-        - image: ironhive/nginxhello:030d8442
+        - image: nbrown/nginxhello:aad042cb
           name: nginxhello
           ports:
             - containerPort: 80
